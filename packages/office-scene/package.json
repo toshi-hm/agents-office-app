@@ -1,0 +1,23 @@
+{
+  "name": "@agents-office-app/office-scene",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "bun test src",
+    "typecheck": "bunx --bun tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@agents-office-app/domain": "workspace:*",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "three": "^0.175.0"
+  },
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}
