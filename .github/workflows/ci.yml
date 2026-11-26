@@ -1,0 +1,186 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Detect changed scopes
+    runs-on: ubuntu-latest
+    outputs:
+      docs: ${{ steps.classify.outputs.docs }}
+      typecheck: ${{ steps.classify.outputs.typecheck }}
+      test_domain: ${{ steps.classify.outputs.test_domain }}
+      test_server: ${{ steps.classify.outputs.test_server }}
+      test_ui: ${{ steps.classify.outputs.test_ui }}
+      build_js: ${{ steps.classify.outputs.build_js }}
+      tauri_check: ${{ steps.classify.outputs.tauri_check }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - id: classify
+        name: Classify changed files
+        env:
+          CI_RUN_ALL: ${{ github.event_name == 'workflow_dispatch' && 'true' || 'false' }}
+          CI_BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          CI_HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: bun run scripts/ci/classify-cli.ts
+
+  docs:
+    name: Docs & CI rules
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Check Markdown links
+        run: bun run scripts/ci/check-docs.ts
+      - name: Test CI change classifier
+        run: bun test scripts/ci
+
+  typecheck:
+    name: Typecheck
+    needs: changes
+    if: needs.changes.outputs.typecheck == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+
+  test-domain:
+    name: Unit tests (domain)
+    needs: changes
+    if: needs.changes.outputs.test_domain == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun test packages/domain
+
+  test-server:
+    name: Unit tests (Bun server)
+    needs: changes
+    if: needs.changes.outputs.test_server == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun test apps/server
+
+  test-ui:
+    name: Unit tests (3D scene & desktop UI)
+    needs: changes
+    if: needs.changes.outputs.test_ui == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun test packages/office-scene apps/desktop
+
+  build-js:
+    name: Build (desktop & server)
+    needs: changes
+    if: needs.changes.outputs.build_js == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+
+  tauri-check:
+    name: Rust / Tauri v2 check (macOS)
+    needs: changes
+    if: needs.changes.outputs.tauri_check == 'true'
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+      - name: Prepare placeholder build outputs for tauri-build check
+        run: |
+          mkdir -p apps/desktop/dist apps/server/dist
+          touch apps/server/dist/index.js
+      - name: Cargo check (locked)
+        run: cargo check --locked --manifest-path src-tauri/Cargo.toml
+
+  ci-gate:
+    name: CI Gate
+    needs:
+      - changes
+      - docs
+      - typecheck
+      - test-domain
+      - test-server
+      - test-ui
+      - build-js
+      - tauri-check
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify required CI results
+        env:
+          RES_CHANGES: ${{ needs.changes.result }}
+          RES_DOCS: ${{ needs.docs.result }}
+          RES_TYPECHECK: ${{ needs.typecheck.result }}
+          RES_DOMAIN: ${{ needs.test-domain.result }}
+          RES_SERVER: ${{ needs.test-server.result }}
+          RES_UI: ${{ needs.test-ui.result }}
+          RES_BUILD_JS: ${{ needs.build-js.result }}
+          RES_TAURI: ${{ needs.tauri-check.result }}
+        run: |
+          cat <<EOF >> "$GITHUB_STEP_SUMMARY"
+          ### CI Execution Summary
+          | Job | Result |
+          | --- | --- |
+          | changes | \`$RES_CHANGES\` |
+          | docs | \`$RES_DOCS\` |
+          | typecheck | \`$RES_TYPECHECK\` |
+          | test-domain | \`$RES_DOMAIN\` |
+          | test-server | \`$RES_SERVER\` |
+          | test-ui | \`$RES_UI\` |
+          | build-js | \`$RES_BUILD_JS\` |
+          | tauri-check | \`$RES_TAURI\` |
+          EOF
+
+          for res in "$RES_CHANGES" "$RES_DOCS" "$RES_TYPECHECK" "$RES_DOMAIN" "$RES_SERVER" "$RES_UI" "$RES_BUILD_JS" "$RES_TAURI"; do
+            if [ "$res" = "failure" ] || [ "$res" = "cancelled" ]; then
+              echo "CI failed: job result was $res"
+              exit 1
+            fi
+          done
