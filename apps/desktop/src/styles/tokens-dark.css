@@ -1,0 +1,19 @@
+:root[data-theme='dark'] {
+  --window: #1c1b20;
+  --panel: rgba(41, 38, 45, 0.86);
+  --surface: #2d2a31;
+  --surface-sunken: rgba(255, 236, 205, 0.06);
+  --text: #f1eadf;
+  --muted: #aca295;
+  --border: rgba(255, 236, 205, 0.13);
+  --accent: #86b98c;
+  --accent-text: #142017;
+  --accent-soft: rgba(134, 185, 140, 0.2);
+  --amber: #ffc457;
+  --amber-soft: rgba(255, 180, 50, 0.17);
+  --danger: #ff8a80;
+  --danger-soft: rgba(255, 110, 100, 0.17);
+  --teal: #5ed3c6;
+  --shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}

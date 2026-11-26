@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { AgentInspector } from './components/AgentInspector.tsx';
 import type { OfficeActions } from './components/actions.ts';
-import { MiniOfficeHud } from './components/MiniOfficeHud.tsx';
-import { Sidebar } from './components/Sidebar.tsx';
-import { TaskModal } from './components/TaskModal.tsx';
-import { TitleBar } from './components/TitleBar.tsx';
+import { AgentInspector } from './components/organisms/AgentInspector.tsx';
+import { Sidebar } from './components/organisms/Sidebar.tsx';
+import { TaskModal } from './components/organisms/TaskModal.tsx';
+import { TitleBar } from './components/organisms/TitleBar.tsx';
+import { MiniOfficeLayout } from './components/templates/MiniOfficeLayout.tsx';
 import { approval, log, snapshot, task } from './test-fixtures.ts';
 
 const noop = () => {};
@@ -114,7 +114,7 @@ describe('desktop screens', () => {
 
   test('mini office offers approval and expand from the popover', () => {
     const html = renderToStaticMarkup(
-      createElement(MiniOfficeHud, {
+      createElement(MiniOfficeLayout, {
         snapshot: busy,
         connection: 'live',
         error: null,

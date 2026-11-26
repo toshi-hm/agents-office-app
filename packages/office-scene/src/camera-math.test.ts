@@ -19,8 +19,8 @@ import {
   lerpPosition,
   positionAtSpherical,
   translateCameraTarget,
-} from './camera-math.ts';
-import { buildOfficeLayout } from './layout.ts';
+} from './camera/index.ts';
+import { buildOfficeLayout } from './layout/index.ts';
 import { ROSTER, TEAMS } from './test-fixtures.ts';
 import type { ScenePosition } from './types.ts';
 

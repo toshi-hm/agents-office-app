@@ -1,0 +1,74 @@
+.ao-label-layer {
+  pointer-events: none;
+}
+.ao-label-layer [hidden] {
+  display: none;
+}
+
+.ao-nameplate {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 4px 3px 8px;
+  border: 1px solid var(--ao-pill-border);
+  border-radius: 999px;
+  background: var(--ao-pill-bg);
+  box-shadow: var(--ao-pill-shadow);
+  color: var(--ao-pill-fg);
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.ao-nameplate__identity {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.ao-nameplate__provider {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.ao-nameplate__role {
+  flex: none;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--ao-pill-muted);
+}
+.ao-nameplate__name {
+  max-width: 7.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+.ao-nameplate__status {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  background: rgba(130, 120, 105, 0.16);
+  color: var(--ao-pill-muted);
+}
+.ao-nameplate__status[data-activity='starting'],
+.ao-nameplate__status[data-activity='working'] {
+  background: #d9f0dc;
+  color: #1f6a36;
+}
+.ao-nameplate__status[data-activity='waiting_approval'] {
+  background: #ffe3a6;
+  color: #7a4a00;
+}
+.ao-nameplate__status[data-activity='error'] {
+  background: #ffd9d6;
+  color: #a1201f;
+}
+.ao-nameplate__status[data-activity='external'] {
+  background: #cdf1ec;
+  color: #0c6760;
+}

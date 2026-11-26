@@ -1,0 +1,17 @@
+input[type='text'],
+select,
+textarea {
+  width: 100%;
+  padding: 6px 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+textarea {
+  resize: vertical;
+  line-height: 1.55;
+}
+::placeholder {
+  color: var(--muted);
+  opacity: 0.75;
+}

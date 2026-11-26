@@ -1,5 +1,5 @@
 import type { ApprovalDecision } from '@agents-office-app/domain';
-import type { DemoKind } from '../lib/api-client.ts';
+import type { DemoKind } from '../lib/api/endpoints.ts';
 
 /** User intents shared by the full and mini layouts. `isBusy` guards double submission. */
 export type OfficeActions = Readonly<{

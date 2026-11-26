@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { fitClone } from './model-preparation.ts';
+import { fitClone } from './model/fit-clone.ts';
 import { useSceneGLTF } from './scene-gltf.ts';
 
 export function FittedAsset({

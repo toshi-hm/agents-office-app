@@ -1,0 +1,44 @@
+.log {
+  position: relative;
+}
+.log__scroll {
+  height: 220px;
+  overflow: auto;
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: #221f24;
+  color: #e6dfd2;
+  font: 11px/1.6 ui-monospace, 'SF Mono', Menlo, monospace;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.log__output {
+  margin: 0;
+  font: inherit;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.log__output [data-stream='stderr'] {
+  color: #ffa198;
+}
+.log__output [data-stream='system'] {
+  color: #9fd3b0;
+}
+.log__empty {
+  color: #948b80;
+}
+.log__latest {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border: 0;
+  border-radius: 999px;
+  background: #f1eadf;
+  color: #221f24;
+  font-size: 10px;
+  font-weight: 700;
+}

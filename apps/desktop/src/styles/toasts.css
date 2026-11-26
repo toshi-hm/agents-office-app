@@ -1,0 +1,35 @@
+/* Toasts float over the stage so they never hide the inspector's buttons. */
+.toasts {
+  position: fixed;
+  z-index: 120;
+  right: calc(var(--inspector-width) + 12px);
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(320px, calc(100% - 28px));
+  pointer-events: none;
+}
+.toast {
+  display: flex;
+  flex-direction: column;
+  padding: 9px 13px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-size: 12px;
+  text-align: left;
+  overflow-wrap: anywhere;
+  pointer-events: auto;
+}
+.toast span {
+  color: var(--muted);
+}
+.toast[data-tone='warning'] {
+  border-left-color: #f0a11c;
+}
+.toast[data-tone='error'] {
+  border-left-color: #e5484d;
+}
