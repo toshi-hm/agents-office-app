@@ -18,6 +18,16 @@ const ALL_TRUE: CiMatrix = Object.freeze({
   tauriCheck: true,
 });
 
+const EMPTY_MATRIX: CiMatrix = Object.freeze({
+  docs: false,
+  typecheck: false,
+  testDomain: false,
+  testServer: false,
+  testUi: false,
+  buildJs: false,
+  tauriCheck: false,
+});
+
 const JS_ROOT_FILES = new Set([
   'package.json',
   'bun.lock',
@@ -26,92 +36,49 @@ const JS_ROOT_FILES = new Set([
   'tsconfig.typecheck.json',
 ]);
 
-function normalize(file: string): string {
-  return file.replace(/\\/g, '/').replace(/^\.\//, '').trim();
-}
-
-function isMarkdown(file: string): boolean {
-  return file.endsWith('.md');
-}
+const normalize = (file: string): string => file.replace(/\\/g, '/').replace(/^\.\//, '').trim();
 
 export function classifyChanges(rawFiles: readonly string[], runAll = false): CiMatrix {
   if (runAll) return ALL_TRUE;
 
   const files = rawFiles.map(normalize).filter(Boolean);
-  if (files.length === 0) {
-    return Object.freeze({
-      docs: false,
-      typecheck: false,
-      testDomain: false,
-      testServer: false,
-      testUi: false,
-      buildJs: false,
-      tauriCheck: false,
-    });
-  }
+  if (files.length === 0) return EMPTY_MATRIX;
 
-  let docs = false;
-  let typecheck = false;
-  let testDomain = false;
-  let testServer = false;
-  let testUi = false;
-  let buildJs = false;
-  let tauriCheck = false;
+  const state = { ...EMPTY_MATRIX };
+  const markAllJs = () => {
+    state.typecheck = true;
+    state.testDomain = true;
+    state.testServer = true;
+    state.testUi = true;
+    state.buildJs = true;
+  };
 
   for (const file of files) {
     if (file.startsWith('.github/workflows/')) return ALL_TRUE;
-
-    if (file.startsWith('docs/') || isMarkdown(file)) {
-      docs = true;
-      continue;
-    }
-
-    if (file.startsWith('scripts/ci/')) {
-      docs = true;
-      typecheck = true;
-      continue;
-    }
-
-    if (file.startsWith('src-tauri/')) {
-      tauriCheck = true;
-      continue;
-    }
-
-    if (JS_ROOT_FILES.has(file) || file.startsWith('packages/domain/')) {
-      typecheck = true;
-      testDomain = true;
-      testServer = true;
-      testUi = true;
-      buildJs = true;
-      continue;
-    }
-
-    if (file.startsWith('apps/server/')) {
-      typecheck = true;
-      testServer = true;
-      buildJs = true;
-      continue;
-    }
-
-    if (file.startsWith('apps/desktop/') || file.startsWith('packages/office-scene/')) {
-      typecheck = true;
-      testUi = true;
-      buildJs = true;
-      continue;
-    }
-
-    if (file.startsWith('scripts/')) {
-      typecheck = true;
+    if (file.startsWith('docs/') || file.endsWith('.md')) {
+      state.docs = true;
+    } else if (file.startsWith('scripts/ci/')) {
+      state.docs = true;
+      state.typecheck = true;
+    } else if (file.startsWith('src-tauri/')) {
+      state.tauriCheck = true;
+    } else if (JS_ROOT_FILES.has(file) || file.startsWith('packages/domain/')) {
+      markAllJs();
+    } else if (file.startsWith('apps/server/')) {
+      state.typecheck = true;
+      state.testServer = true;
+      state.buildJs = true;
+    } else if (file.startsWith('apps/desktop/') || file.startsWith('packages/office-scene/')) {
+      state.typecheck = true;
+      state.testUi = true;
+      state.buildJs = true;
+    } else if (file.startsWith('scripts/')) {
+      state.typecheck = true;
+    } else {
+      // Fail-safe for newly added packages/apps or unrecognized root config files.
+      markAllJs();
     }
   }
 
-  return Object.freeze({
-    docs,
-    typecheck,
-    testDomain,
-    testServer,
-    testUi,
-    buildJs,
-    tauriCheck,
-  });
+  return Object.freeze(state);
 }

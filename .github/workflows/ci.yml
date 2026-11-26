@@ -178,7 +178,12 @@ jobs:
           | tauri-check | \`$RES_TAURI\` |
           EOF
 
-          for res in "$RES_CHANGES" "$RES_DOCS" "$RES_TYPECHECK" "$RES_DOMAIN" "$RES_SERVER" "$RES_UI" "$RES_BUILD_JS" "$RES_TAURI"; do
+          if [ "$RES_CHANGES" != "success" ]; then
+            echo "CI failed: changes classifier did not succeed ($RES_CHANGES)"
+            exit 1
+          fi
+
+          for res in "$RES_DOCS" "$RES_TYPECHECK" "$RES_DOMAIN" "$RES_SERVER" "$RES_UI" "$RES_BUILD_JS" "$RES_TAURI"; do
             if [ "$res" = "failure" ] || [ "$res" = "cancelled" ]; then
               echo "CI failed: job result was $res"
               exit 1

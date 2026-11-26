@@ -62,6 +62,18 @@ describe('classifyChanges', () => {
     });
   });
 
+  test('unknown non-doc files fail-safe to JS checks without macOS tauri', () => {
+    expect(classifyChanges(['packages/new-lib/src/index.ts'])).toEqual({
+      docs: false,
+      typecheck: true,
+      testDomain: true,
+      testServer: true,
+      testUi: true,
+      buildJs: true,
+      tauriCheck: false,
+    });
+  });
+
   test('workflow changes or runAll trigger every CI job', () => {
     const expectedAll = {
       docs: true,
