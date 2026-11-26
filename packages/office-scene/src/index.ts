@@ -1,8 +1,8 @@
-export { OfficeViewport } from './OfficeViewport.tsx';
-export type { OfficeViewportProps } from './OfficeViewport.tsx';
-export type { CameraMode } from './OfficeCamera.tsx';
-export type { SceneTheme } from './RoomDecor.tsx';
-export { buildOfficeLayout, getLayoutSignature, MAX_MEMBERS } from './layout.ts';
+export { OfficeViewport } from './viewport/OfficeViewport.tsx';
+export type { OfficeViewportProps } from './viewport/viewport-props.ts';
+export type { CameraMode } from './camera/plan-goal.ts';
+export type { SceneTheme } from './decor/palettes.ts';
+export { buildOfficeLayout, getLayoutSignature, MAX_MEMBERS } from './layout/index.ts';
 export { defaultLabelMode, shouldShowMemberLabel } from './scene-labels.ts';
 export type { LabelMode } from './scene-labels.ts';
 export { PROVIDER_COLORS } from './provider-colors.ts';

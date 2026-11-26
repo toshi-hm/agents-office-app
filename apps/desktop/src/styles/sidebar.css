@@ -1,0 +1,61 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+}
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 10px 10px 4px;
+  padding: 2px;
+  border-radius: 9px;
+  background: var(--surface-sunken);
+}
+.segmented button,
+.filter button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.segmented button[aria-selected='true'] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.segmented__count {
+  font-size: 10px;
+  opacity: 0.7;
+}
+.sidebar__scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 6px 10px 16px;
+}
+.filter {
+  display: flex;
+  gap: 4px;
+  margin: 4px 0 8px;
+}
+.filter button[aria-pressed='true'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}

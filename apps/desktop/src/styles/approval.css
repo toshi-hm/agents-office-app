@@ -1,0 +1,56 @@
+.approval {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 4px;
+  padding: 11px 12px;
+  border: 2px solid color-mix(in srgb, var(--amber) 65%, transparent);
+  border-radius: 12px;
+  background: var(--amber-soft);
+}
+.approval__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--amber);
+}
+.approval__tool {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font: 700 12px ui-monospace, 'SF Mono', monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.approval time {
+  color: var(--muted);
+  font-size: 10px;
+}
+.approval > .link {
+  align-self: flex-start;
+}
+.approval__summary {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.approval__detail {
+  max-height: 130px;
+  margin: 0;
+  overflow: auto;
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: var(--surface);
+  font: 11px/1.5 ui-monospace, 'SF Mono', monospace;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.approval__actions {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 8px;
+}
+.approval__actions .button {
+  min-height: 32px;
+}

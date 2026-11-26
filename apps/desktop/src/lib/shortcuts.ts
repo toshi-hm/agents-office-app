@@ -32,3 +32,7 @@ export function isSubmitKey(event: KeyLike): boolean {
     event.key === 'Enter' && event.metaKey && !event.isComposing && event.keyCode !== 229
   );
 }
+
+export function isTextField(target: EventTarget | null): target is HTMLElement {
+  return target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement;
+}

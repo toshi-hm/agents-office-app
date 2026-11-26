@@ -6,7 +6,7 @@ import {
   buildOfficeLayout,
   departmentRank,
   getLayoutSignature,
-} from './layout.ts';
+} from './layout/index.ts';
 import { ROSTER, TEAMS, member } from './test-fixtures.ts';
 import type { OfficeLayout } from './types.ts';
 

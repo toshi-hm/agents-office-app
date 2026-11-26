@@ -1,0 +1,32 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.stats div {
+  padding: 7px 4px;
+  border-radius: 10px;
+  background: var(--surface-sunken);
+  text-align: center;
+}
+.stats dt {
+  color: var(--muted);
+  font-size: 10px;
+}
+.stats dd {
+  font-size: 19px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.stats div[data-alert='true'] {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+.demo-card p {
+  color: var(--muted);
+  font-size: 12px;
+}
+.demo-card > .link,
+.demo-card > .button {
+  align-self: flex-start;
+}

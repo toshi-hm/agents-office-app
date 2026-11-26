@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { OfficeViewport } from './OfficeViewport.tsx';
+import { OfficeViewport } from './viewport/index.ts';
 import { supportsWebGL2 } from './webgl.ts';
 import { ROSTER, TEAMS } from './test-fixtures.ts';
 
