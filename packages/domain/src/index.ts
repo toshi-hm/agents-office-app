@@ -1,3 +1,3 @@
-export * from './types.ts';
-export * from './slot-ledger.ts';
-export * from './office-state.ts';
+export * from './types/index.ts';
+export * from './slots/index.ts';
+export * from './state/index.ts';
