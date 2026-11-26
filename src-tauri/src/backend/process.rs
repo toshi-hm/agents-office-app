@@ -1,5 +1,3 @@
-use serde::Deserialize;
-use std::io::{BufRead, BufReader};
 use std::process::{Child, Command, Stdio};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
@@ -7,81 +5,10 @@ use tauri::{AppHandle, Manager};
 use uuid::Uuid;
 
 use super::locate::{build_enriched_path, find_bun_binary, resolve_server_entry};
+use super::ready_reader::{spawn_ready_reader, wait_for_ready_url};
 use super::ManagedBackend;
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct ReadyLine {
-    #[serde(rename = "type")]
-    kind: String,
-    base_url: Option<String>,
-}
-
-fn spawn_ready_reader(
-    stdout: std::process::ChildStdout,
-) -> std::sync::mpsc::Receiver<Result<String, String>> {
-    let (tx, rx) = std::sync::mpsc::channel::<Result<String, String>>();
-    std::thread::spawn(move || {
-        let reader = BufReader::new(stdout);
-        let mut announced = false;
-        for line_result in reader.lines() {
-            match line_result {
-                Ok(line) => {
-                    if !announced {
-                        if let Ok(parsed) = serde_json::from_str::<ReadyLine>(&line) {
-                            if parsed.kind == "ready" {
-                                if let Some(url) = parsed.base_url {
-                                    announced = true;
-                                    let _ = tx.send(Ok(url));
-                                }
-                            }
-                        }
-                    }
-                }
-                Err(err) => {
-                    if !announced {
-                        let _ = tx.send(Err(format!("error reading backend stdout: {err}")));
-                    }
-                    break;
-                }
-            }
-        }
-        if !announced {
-            let _ = tx.send(Err("Bun backend exited before announcing readiness".to_string()));
-        }
-    });
-    rx
-}
-
-fn wait_for_ready_url(
-    child: &mut Child,
-    rx: std::sync::mpsc::Receiver<Result<String, String>>,
-) -> Result<String, String> {
-    let deadline = Instant::now() + Duration::from_secs(12);
-    loop {
-        let remaining = deadline.saturating_duration_since(Instant::now());
-        if remaining.is_zero() {
-            let _ = child.kill();
-            return Err("timed out waiting for Bun backend ready handshake".to_string());
-        }
-        match rx.recv_timeout(remaining.min(Duration::from_millis(250))) {
-            Ok(Ok(url)) => return Ok(url),
-            Ok(Err(err)) => {
-                let _ = child.kill();
-                return Err(err);
-            }
-            Err(std::sync::mpsc::RecvTimeoutError::Timeout) => {
-                if let Ok(Some(status)) = child.try_wait() {
-                    return Err(format!("Bun backend exited early with status {status}"));
-                }
-            }
-            Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => {
-                let _ = child.kill();
-                return Err("Bun backend stdout closed before ready".to_string());
-            }
-        }
-    }
-}
+const GRACEFUL_SHUTDOWN_TIMEOUT: Duration = Duration::from_millis(1500);
 
 pub fn spawn_bun_backend(app: &AppHandle) -> Result<ManagedBackend, String> {
     let bun = find_bun_binary();
@@ -122,9 +49,29 @@ pub fn spawn_bun_backend(app: &AppHandle) -> Result<ManagedBackend, String> {
     })
 }
 
+#[cfg(unix)]
+fn send_sigterm(child: &Child) {
+    let _ = Command::new("/bin/kill")
+        .args(["-TERM", &child.id().to_string()])
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .status();
+}
+
 pub fn shutdown_backend(child_slot: &Arc<Mutex<Option<Child>>>) {
     if let Ok(mut guard) = child_slot.lock() {
         if let Some(mut child) = guard.take() {
+            #[cfg(unix)]
+            {
+                send_sigterm(&child);
+                let deadline = Instant::now() + GRACEFUL_SHUTDOWN_TIMEOUT;
+                while Instant::now() < deadline {
+                    if let Ok(Some(_)) = child.try_wait() {
+                        return;
+                    }
+                    std::thread::sleep(Duration::from_millis(50));
+                }
+            }
             let _ = child.kill();
             let _ = child.wait();
         }

@@ -1,5 +1,6 @@
 mod locate;
 mod process;
+mod ready_reader;
 
 use serde::Serialize;
 use std::process::Child;
