@@ -1,0 +1,14 @@
+{
+  "name": "@agents-office-app/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@agents-office-app/domain": "workspace:*"
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "test": "bun test"
+  }
+}
