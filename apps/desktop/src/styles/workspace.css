@@ -1,0 +1,11 @@
+/* ---------- workspace ---------- */
+.workspace {
+  display: grid;
+  flex: 1;
+  grid-template-columns: 256px minmax(0, 1fr) var(--inspector-width);
+  min-height: 0;
+}
+.panel {
+  min-height: 0;
+  background: var(--panel);
+}

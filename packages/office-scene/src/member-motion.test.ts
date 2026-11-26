@@ -9,12 +9,12 @@ import {
   getDestination,
   isAnimatedActivity,
   isSeatedActivity,
+  prepareMemberPose,
   sampleActivityEffect,
   sampleMemberMotion,
-} from './member-motion.ts';
-import { prepareMemberPose } from './member-pose.ts';
-import { CHARACTER_HEIGHT, prepareCharacter } from './model-preparation.ts';
-import { buildOfficeLayout } from './layout.ts';
+} from './motion/index.ts';
+import { CHARACTER_HEIGHT, prepareCharacter } from './model/index.ts';
+import { buildOfficeLayout } from './layout/index.ts';
 import { ROSTER, TEAMS } from './test-fixtures.ts';
 
 const placement = buildOfficeLayout(ROSTER, TEAMS).members[0]!;

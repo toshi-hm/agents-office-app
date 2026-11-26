@@ -1,0 +1,74 @@
+.team {
+  margin-top: 10px;
+}
+.team__swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  text-align: left;
+}
+.row:hover {
+  background: var(--surface-sunken);
+}
+.row[aria-current='true'] {
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: var(--accent-soft);
+}
+.row__main {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+.row__title {
+  display: block;
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.row__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.agent-row__state {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.task-item .row {
+  min-width: 0;
+}
+.task-item__stop {
+  color: var(--danger);
+}
+.external__item {
+  padding: 5px 8px;
+}
+.empty {
+  padding: 4px 8px;
+  color: var(--muted);
+  font-size: 12px;
+}

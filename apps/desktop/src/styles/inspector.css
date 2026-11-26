@@ -1,0 +1,94 @@
+/* ---------- inspector ---------- */
+.inspector {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+}
+.inspector__scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow: auto;
+  padding: 14px;
+}
+.inspector__scroll > * {
+  flex: none;
+}
+.profile {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.profile__text {
+  flex: 1;
+  min-width: 0;
+}
+.profile h2,
+.summary h2 {
+  font-size: 16px;
+}
+.profile p,
+.summary p {
+  color: var(--muted);
+  font-size: 12px;
+}
+.profile__note {
+  color: var(--muted);
+  font-size: 12px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+}
+.card .section-title {
+  margin: 0;
+}
+.current-task {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.current-task > div {
+  min-width: 0;
+}
+.current-task__title {
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+.notice {
+  max-height: 120px;
+  overflow: auto;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: var(--surface-sunken);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.notice--error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.facts {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 3px 14px;
+  font-size: 12px;
+}
+.facts dt {
+  color: var(--muted);
+}
+.facts__path {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  user-select: text;
+  -webkit-user-select: text;
+}

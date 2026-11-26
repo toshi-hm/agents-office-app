@@ -9,6 +9,8 @@ export type Toast = Readonly<{
   agentId?: string | undefined;
 }>;
 
+export type PushToast = (toast: Omit<Toast, 'id'>) => void;
+
 const LIFETIME_MS = 5200;
 const MAX_TOASTS = 4;
 
@@ -20,8 +22,8 @@ export function useToasts() {
   const dismiss = useCallback((id: number) => {
     setToasts((current) => current.filter((toast) => toast.id !== id));
   }, []);
-  const push = useCallback(
-    (toast: Omit<Toast, 'id'>) => {
+  const push = useCallback<PushToast>(
+    (toast) => {
       const id = nextId.current++;
       setToasts((current) => [...current, { ...toast, id }].slice(-MAX_TOASTS));
       const timer = window.setTimeout(() => {

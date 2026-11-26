@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { createApiClient, createOfficeStore } from '../lib/api-client.ts';
-import type { OfficeNotification } from '../lib/api-client.ts';
-import type { TauriBridge } from '../lib/tauri-bridge.ts';
+import { createApiClient } from '../lib/api/http-client.ts';
+import type { OfficeNotification } from '../lib/api/notifications.ts';
+import { createOfficeStore } from '../lib/api/office-store.ts';
+import type { TauriBridge } from '../lib/tauri/types.ts';
 
 /** One API client and live store for the lifetime of the window. */
-export function useOffice(bridge: TauriBridge, onNotify: (notification: OfficeNotification) => void) {
+export function useOffice(
+  bridge: TauriBridge,
+  onNotify: (notification: OfficeNotification) => void,
+) {
   const notify = useRef(onNotify);
   notify.current = onNotify;
   const [{ api, store }] = useState(() => {

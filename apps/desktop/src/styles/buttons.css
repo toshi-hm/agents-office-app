@@ -1,0 +1,83 @@
+/* ---------- controls ---------- */
+.button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 3px 11px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.button:hover:not(:disabled) {
+  filter: brightness(0.97);
+}
+.button--primary,
+.button--allow {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+.button--quiet {
+  background: transparent;
+}
+.button--deny,
+.button--danger-quiet {
+  color: var(--danger);
+}
+.button--danger {
+  border-color: transparent;
+  background: var(--danger);
+  color: var(--surface);
+}
+.icon-button {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+}
+.icon-button:hover:not(:disabled) {
+  background: var(--surface-sunken);
+  color: var(--text);
+}
+.icon-button[aria-pressed='true'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+.link:hover:not(:disabled) {
+  text-decoration: underline;
+}
+.link--danger {
+  color: var(--muted);
+}
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.button-row--end {
+  justify-content: flex-end;
+}
+.button-row--between {
+  align-items: center;
+  justify-content: space-between;
+}

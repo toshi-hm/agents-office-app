@@ -1,0 +1,30 @@
+.ao-nameplate[data-selected='true'] {
+  border: 2px solid var(--ao-selected);
+  padding: 2px 3px 2px 7px;
+}
+.ao-nameplate[data-selected='true'] .ao-nameplate__name {
+  max-width: 12em;
+}
+.ao-nameplate:focus-visible {
+  outline: 3px solid var(--ao-selected);
+  outline-offset: 2px;
+}
+.ao-nameplate[data-compact='true'] {
+  gap: 3px;
+  padding: 2px 3px 2px 5px;
+  font-size: 9.5px;
+}
+.ao-nameplate[data-compact='true'] .ao-nameplate__provider {
+  width: 6px;
+  height: 6px;
+}
+.ao-nameplate[data-compact='true'] .ao-nameplate__role {
+  font-size: 8px;
+}
+.ao-nameplate[data-compact='true'] .ao-nameplate__name {
+  max-width: 5.5em;
+}
+.ao-nameplate[data-compact='true'] .ao-nameplate__status {
+  padding: 0 4px;
+  font-size: 8px;
+}

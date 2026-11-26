@@ -1,0 +1,37 @@
+.ao-fallback {
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 16px;
+  color: var(--ao-pill-fg);
+  font-size: 12px;
+}
+.ao-viewport[data-compact='true'] .ao-fallback {
+  padding: 48px 10px 10px;
+}
+.ao-fallback__message {
+  margin: 0 0 10px;
+  color: var(--ao-pill-muted);
+}
+.ao-fallback__retry {
+  margin-bottom: 12px;
+}
+.ao-fallback__team h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 0 6px;
+  font-size: 12px;
+}
+.ao-fallback__team ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ao-fallback__team p {
+  margin: 0;
+  color: var(--ao-pill-muted);
+}
