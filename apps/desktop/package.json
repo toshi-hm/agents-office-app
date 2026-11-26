@@ -13,13 +13,13 @@
   "dependencies": {
     "@agents-office-app/domain": "workspace:*",
     "@agents-office-app/office-scene": "workspace:*",
-    "@tauri-apps/api": "^2.5.0",
+    "@tauri-apps/api": "^2.12.5",
     "lucide-react": "^1.81.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^6.0.0",
-    "vite": "^8.0.0"
+    "@vitejs/plugin-react": "^6.3.0",
+    "vite": "^8.4.0"
   }
 }
