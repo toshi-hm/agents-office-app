@@ -157,4 +157,19 @@ describe('deriveAgentActivities & deriveOfficeHealth', () => {
     expect(health.pendingApprovals).toBe(1);
     expect(health.externalSessionsCount).toBe(1);
   });
+
+  test('matches external sessions 1-to-1 when cwd is unknown', () => {
+    const secondAgent: Agent = { ...agent, id: 'agent-2', displayName: 'Claude 2号' };
+    const unknownCwdSession: ExternalSession = {
+      pid: 77777,
+      provider: 'claude',
+      command: 'claude',
+      cwd: null,
+      observedAt: '2026-11-26T00:00:05.000Z',
+    };
+
+    const activities = deriveAgentActivities([agent, secondAgent], [], [], [], [unknownCwdSession]);
+    expect(activities['agent-1']).toBe('external');
+    expect(activities['agent-2']).toBe('idle');
+  });
 });

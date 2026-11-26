@@ -9,7 +9,9 @@ if (!/^\d+$/.test(rawPort) || port > 65535) throw new Error('AGENTS_OFFICE_PORT 
 const token = Bun.env.AGENTS_OFFICE_TOKEN || crypto.randomUUID();
 const dir = Bun.env.AGENTS_OFFICE_DATA_DIR || join(homedir(), 'Library', 'Application Support', 'AgentsOffice');
 mkdirSync(dir, { recursive: true, mode: 0o700 });
-const office = createOfficeServer({ token, port, dbPath: join(dir, 'office.sqlite') });
+const rawDemoStepMs = Bun.env.AGENTS_OFFICE_DEMO_STEP_MS;
+const demoStepMs = rawDemoStepMs && /^\d+$/.test(rawDemoStepMs) ? Number(rawDemoStepMs) : 2200;
+const office = createOfficeServer({ token, port, dbPath: join(dir, 'office.sqlite'), demoStepMs });
 
 function shutdown() {
   void office.close().catch((error) => {

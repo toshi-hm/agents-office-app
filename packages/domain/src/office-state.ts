@@ -25,7 +25,7 @@ export function deriveAgentActivities(
   externalSessions: readonly ExternalSession[],
 ): Readonly<Record<string, AgentActivity>> {
   const result: Record<string, AgentActivity> = {};
-  const externalProviders = new Set(externalSessions.map((s) => s.provider));
+  const idleCandidates: Agent[] = [];
 
   for (const agent of agents) {
     const hasPendingApproval = approvals.some(
@@ -60,19 +60,43 @@ export function deriveAgentActivities(
       }
     }
 
-    if (agent.provider !== 'demo' && externalProviders.has(agent.provider)) {
-      const matchingWorkspace = externalSessions.some(
-        (s) =>
-          s.provider === agent.provider &&
-          (s.cwd === null || agent.workspacePath === '' || s.cwd.startsWith(agent.workspacePath)),
-      );
-      if (matchingWorkspace) {
-        result[agent.id] = 'external';
-        continue;
-      }
-    }
-
     result[agent.id] = 'idle';
+    if (agent.provider !== 'demo') {
+      idleCandidates.push(agent);
+    }
+  }
+
+  // Assign external CLI sessions 1-to-1 so a single external process never marks every agent.
+  const remainingSessions = [...externalSessions];
+  const matchedAgents = new Set<string>();
+
+  // Pass 1: exact workspace path prefix match when cwd is known.
+  for (const agent of idleCandidates) {
+    if (!agent.workspacePath) continue;
+    const idx = remainingSessions.findIndex(
+      (s) =>
+        s.provider === agent.provider &&
+        s.cwd !== null &&
+        s.cwd.startsWith(agent.workspacePath),
+    );
+    if (idx !== -1) {
+      remainingSessions.splice(idx, 1);
+      matchedAgents.add(agent.id);
+      result[agent.id] = 'external';
+    }
+  }
+
+  // Pass 2: fallback 1-to-1 match for external sessions whose cwd is unknown.
+  for (const agent of idleCandidates) {
+    if (matchedAgents.has(agent.id)) continue;
+    const idx = remainingSessions.findIndex(
+      (s) => s.provider === agent.provider && s.cwd === null,
+    );
+    if (idx !== -1) {
+      remainingSessions.splice(idx, 1);
+      matchedAgents.add(agent.id);
+      result[agent.id] = 'external';
+    }
   }
 
   return Object.freeze(result);

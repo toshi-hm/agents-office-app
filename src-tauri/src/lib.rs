@@ -97,13 +97,15 @@ fn resolve_server_entry(app: &AppHandle) -> Result<(PathBuf, PathBuf), String> {
     }
 
     if let Ok(resource_dir) = app.path().resource_dir() {
-        let bundled = resource_dir.join("apps/server/dist/index.js");
-        if bundled.is_file() {
-            return Ok((bundled, resource_dir));
-        }
-        let flat_bundled = resource_dir.join("index.js");
-        if flat_bundled.is_file() {
-            return Ok((flat_bundled, resource_dir));
+        for rel in [
+            "_up_/apps/server/dist/index.js",
+            "apps/server/dist/index.js",
+            "index.js",
+        ] {
+            let bundled = resource_dir.join(rel);
+            if bundled.is_file() {
+                return Ok((bundled, resource_dir));
+            }
         }
     }
 
