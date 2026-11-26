@@ -1,0 +1,30 @@
+{
+  "name": "agents-office-app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:server": "bun run --cwd apps/server dev",
+    "dev:web": "bun run --cwd apps/desktop dev",
+    "dev": "bun run scripts/dev-web.ts",
+    "tauri:dev": "bun run scripts/tauri.ts dev",
+    "tauri:build": "bun run scripts/tauri.ts build",
+    "build:desktop": "bun run --cwd apps/desktop build",
+    "build:server": "bun run --cwd apps/server build",
+    "build": "bun run build:desktop && bun run build:server",
+    "typecheck": "bunx tsc --noEmit -p tsconfig.typecheck.json",
+    "test": "bun test packages apps"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.5.0",
+    "@types/bun": "^1.2.15",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/three": "^0.175.0",
+    "typescript": "^5.8.3"
+  }
+}
