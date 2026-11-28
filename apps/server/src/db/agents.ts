@@ -1,9 +1,17 @@
+import { existsSync } from 'node:fs';
 import type { Database } from 'bun:sqlite';
 import type { Agent, CreateAgentInput, Team, UpdateAgentInput } from '@agents-office-app/domain';
 import { OfficeError, now } from './error.ts';
 import { publicAgent, type AgentRow } from './mappers.ts';
 
-export const defaultWorkspace = process.env.HOME ? `${process.env.HOME}/work` : '/tmp';
+const resolveDefaultWorkspace = (): string => {
+  const home = process.env.HOME;
+  if (!home) return '/tmp';
+  const workDir = `${home}/work`;
+  return existsSync(workDir) ? workDir : home;
+};
+
+export const defaultWorkspace = resolveDefaultWorkspace();
 export const agentQuery = 'SELECT agents.*, teams.name AS teamName FROM agents JOIN teams ON teams.id = agents.teamId';
 
 export function createAgentQueries(sql: Database) {
