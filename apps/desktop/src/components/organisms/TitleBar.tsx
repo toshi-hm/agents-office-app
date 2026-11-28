@@ -50,7 +50,7 @@ export function TitleBar(props: TitleBarProps) {
         type="button"
         className="button button--quiet"
         onClick={props.onMini}
-        title="小さなオフィス (⌘M)"
+        title="小さなオフィス (⌘⇧M)"
       >
         <Minimize2 size={14} aria-hidden="true" />
         <span className="titlebar__label">小さなオフィス</span>

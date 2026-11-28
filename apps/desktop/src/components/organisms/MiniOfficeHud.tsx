@@ -50,7 +50,7 @@ export function MiniOfficeHud(props: {
           <Tags size={13} aria-hidden="true" />
         </IconButton>
         <PinButton pinned={pinned} iconSize={13} onToggle={props.onTogglePin} />
-        <button type="button" className="mini__expand" title="拡大 (⌘M)" onClick={onExpand}>
+        <button type="button" className="mini__expand" title="拡大 (⌘⇧M)" onClick={onExpand}>
           <Maximize2 size={12} aria-hidden="true" />
           拡大
         </button>

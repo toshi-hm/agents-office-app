@@ -220,13 +220,14 @@ const key = (value: string, patch: object = {}) => ({
 describe('keyboard shortcuts', () => {
   test('maps the macOS commands', () => {
     expect(matchShortcut(key('n', { metaKey: true }))).toBe('new-task');
-    expect(matchShortcut(key('m', { metaKey: true }))).toBe('toggle-mini');
+    expect(matchShortcut(key('m', { metaKey: true, shiftKey: true }))).toBe('toggle-mini');
     expect(matchShortcut(key('r', { metaKey: true }))).toBe('refresh');
     expect(matchShortcut(key('Escape'))).toBe('escape');
   });
 
   test('leaves other combinations alone', () => {
     expect(matchShortcut(key('n'))).toBeNull();
+    expect(matchShortcut(key('m', { metaKey: true }))).toBeNull();
     expect(matchShortcut(key('n', { metaKey: true, shiftKey: true }))).toBeNull();
     expect(matchShortcut(key('r', { ctrlKey: true }))).toBeNull();
   });
