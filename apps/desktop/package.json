@@ -1,0 +1,25 @@
+{
+  "name": "@agents-office-app/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun tsc --noEmit -p tsconfig.json && bunx --bun vite build",
+    "preview": "bunx --bun vite preview",
+    "test": "bun test src",
+    "typecheck": "bunx --bun tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@agents-office-app/domain": "workspace:*",
+    "@agents-office-app/office-scene": "workspace:*",
+    "@tauri-apps/api": "^2.12.5",
+    "lucide-react": "^1.81.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.3.0",
+    "vite": "^8.4.0"
+  }
+}

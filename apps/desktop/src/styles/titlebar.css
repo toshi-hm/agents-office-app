@@ -1,0 +1,58 @@
+/* ---------- title bar ---------- */
+.titlebar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  /* 78px keeps clear of the macOS traffic lights. */
+  padding: 0 12px 0 78px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+  white-space: nowrap;
+}
+.titlebar__title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.titlebar__spacer {
+  align-self: stretch;
+  flex: 1;
+}
+.slot-meter {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.slot-meter__dots {
+  display: flex;
+  gap: 3px;
+}
+.slot-meter__dots i {
+  width: 6px;
+  height: 12px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--muted) 28%, transparent);
+}
+.slot-meter__dots i[data-used='true'] {
+  background: var(--accent);
+}
+.approval-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 11px;
+  border: 1px solid color-mix(in srgb, var(--amber) 50%, transparent);
+  border-radius: 999px;
+  background: var(--amber-soft);
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 700;
+}

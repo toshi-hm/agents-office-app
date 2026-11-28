@@ -1,0 +1,51 @@
+/* ---------- modal and toasts ---------- */
+.modal {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: start center;
+  padding: 52px 16px 16px;
+  background: rgba(40, 30, 18, 0.28);
+}
+.modal__panel {
+  display: flex;
+  flex-direction: column;
+  width: min(540px, 100%);
+  max-height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 22px 60px rgba(30, 20, 10, 0.32);
+}
+.modal__header,
+.modal__footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+}
+.modal__header {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.modal__header h2 {
+  font-size: 14px;
+}
+.modal__footer {
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+}
+.modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  overflow: auto;
+  padding: 14px 16px;
+}
+.modal__body > * {
+  flex: none;
+}
+.modal__panel > .notice {
+  margin: 0 16px 10px;
+}

@@ -1,0 +1,52 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  border: 0;
+}
+.field > span,
+.field > label,
+.field legend {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.field-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.field__with-button {
+  display: flex;
+  gap: 6px;
+}
+.swatches {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.swatches legend {
+  margin-bottom: 6px;
+}
+.swatch {
+  width: 24px;
+  height: 24px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+}
+.swatch[aria-pressed='true'] {
+  border-color: var(--surface);
+  box-shadow: 0 0 0 2px var(--text);
+}
+.swatches input[type='color'] {
+  width: 34px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+}

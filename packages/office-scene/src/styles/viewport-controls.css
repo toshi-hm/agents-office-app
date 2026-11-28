@@ -1,0 +1,48 @@
+.ao-viewport__controls {
+  position: absolute;
+  z-index: 40;
+  left: 50%;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  transform: translateX(-50%);
+  border: 1px solid var(--ao-pill-border);
+  border-radius: 999px;
+  background: var(--ao-glass);
+  box-shadow: var(--ao-pill-shadow);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  white-space: nowrap;
+}
+.ao-viewport__controls button {
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ao-pill-fg);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ao-viewport__controls button:hover:not(:disabled) {
+  background: rgba(135, 160, 120, 0.18);
+}
+.ao-viewport__controls button[aria-pressed='true'] {
+  background: rgba(105, 145, 100, 0.3);
+}
+.ao-viewport__controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.ao-viewport__controls button:focus-visible {
+  outline: 2px solid var(--ao-selected);
+}
+.ao-viewport__divider {
+  width: 1px;
+  height: 16px;
+  margin: 0 3px;
+  background: var(--ao-pill-border);
+}

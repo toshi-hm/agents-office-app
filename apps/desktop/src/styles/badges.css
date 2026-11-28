@@ -1,0 +1,95 @@
+.chip {
+  display: inline-block;
+  flex: none;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 17px;
+  white-space: nowrap;
+}
+.chip[data-activity='working'],
+.chip[data-activity='starting'],
+.chip[data-status='running'],
+.chip[data-status='succeeded'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.chip[data-activity='waiting_approval'],
+.chip[data-status='waiting_approval'] {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+.chip[data-activity='error'],
+.chip[data-status='failed'] {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.chip[data-activity='external'] {
+  color: var(--teal);
+}
+.provider-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font: 600 10px/16px ui-monospace, 'SF Mono', monospace;
+}
+.provider-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.activity-dot {
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--muted) 45%, transparent);
+}
+.activity-dot[data-activity='working'],
+.activity-dot[data-activity='starting'] {
+  background: #35a552;
+  animation: breathe 1.6s ease-in-out infinite;
+}
+.activity-dot[data-activity='waiting_approval'] {
+  background: #f0a11c;
+  animation: breathe 0.9s ease-in-out infinite;
+}
+.activity-dot[data-activity='error'] {
+  background: #e5484d;
+}
+.activity-dot[data-activity='external'] {
+  background: #1fb6a8;
+}
+@keyframes breathe {
+  50% {
+    opacity: 0.35;
+  }
+}
+.avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.avatar--sm {
+  width: 22px;
+  height: 22px;
+  font-size: 11px;
+}
+.avatar--lg {
+  width: 46px;
+  height: 46px;
+  font-size: 19px;
+}

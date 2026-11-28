@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Agents Office",
+  "version": "0.1.0",
+  "identifier": "jp.toshihm.agents-office",
+  "build": {
+    "beforeDevCommand": "bun run --cwd apps/desktop dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "beforeBuildCommand": "bun run build",
+    "frontendDist": "../apps/desktop/dist"
+  },
+  "app": {
+    "macOSPrivateApi": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Agents Office",
+        "width": 1280,
+        "height": 820,
+        "minWidth": 360,
+        "minHeight": 280,
+        "resizable": true,
+        "center": true,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data:; connect-src 'self' http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* blob: data:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline';"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "dmg"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns"
+    ],
+    "resources": [
+      "../apps/server/dist/index.js"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "13.0"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+/* Warm light is the default look (D-018): translucent paper panels around a wood and sage diorama. */
+:root {
+  --window: #ede5d8;
+  --panel: rgba(255, 251, 244, 0.82);
+  --surface: #fffaf2;
+  --surface-sunken: rgba(120, 96, 66, 0.07);
+  --text: #2f2a22;
+  --muted: #776a5b;
+  --border: rgba(120, 96, 66, 0.17);
+  --accent: #46744e;
+  --accent-text: #ffffff;
+  --accent-soft: rgba(95, 138, 99, 0.18);
+  --amber: #b97700;
+  --amber-soft: #fff0cc;
+  --danger: #b8362f;
+  --danger-soft: #ffe2df;
+  --teal: #0f766d;
+  --shadow: 0 6px 22px rgba(74, 54, 30, 0.14);
+  color-scheme: light;
+}
